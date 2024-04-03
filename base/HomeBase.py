@@ -19,11 +19,19 @@ class HomeBase:
         :return:
         """
 
-        return "//span[start-with(text(),'欢迎您回来')]"
+        return "//span[starts-with(text(),'欢迎您回来')]"
 
     def show_data(self):
         """
         首页显示日期
         :return:
         """
-        return "//div[text()='我的日历']/following-sibling::div"
+        return "//div[text()='我的日历']/following-sibling::div"  # following-sibling方法用于找到元素同级的下一个元素
+
+    def home_user_avatar(self):
+        """
+        首页用户头像大图
+        :return:
+        """
+        return "//span[starts-with(text(),'欢迎您回来')]/parent::div/preceding-sibling::div//img"  # preceding-sibling方法用于找到元素同级的上一个元素
+                                                                                                 # parent方法用于找到元素的父亲
