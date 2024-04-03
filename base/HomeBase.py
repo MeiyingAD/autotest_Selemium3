@@ -21,3 +21,9 @@ class HomeBase:
 
         return "//span[start-with(text(),'欢迎您回来')]"
 
+    def show_data(self):
+        """
+        首页显示日期
+        :return:
+        """
+        return "//div[text()='我的日历']/following-sibling::div"
