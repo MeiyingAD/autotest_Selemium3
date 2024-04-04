@@ -1,6 +1,8 @@
 import time
 
-from selenium.common.exceptions import ElementNotVisibleException, WebDriverException, NoSuchElementException
+from selenium.common.exceptions import ElementNotVisibleException, WebDriverException, NoSuchElementException, StaleElementReferenceException
+
+from selenium.webdriver.common.keys import Keys
 
 from common.yaml_config import GetConf
 
@@ -190,5 +192,72 @@ class ObjectMap:
             driver.find_element(by=locate_type, value=locator_expression)
             return True
         except NoSuchElementException:
-            #未找到该元素，返回False
+            # 未找到该元素，返回False
             return False
+
+    def element_fill_value(self, driver, locate_type, locator_expression, fill_value, timeout=30):
+        """
+        元素填值（先清除元素中的值，再填值，如果填入的值以‘/n’结尾，则自动回车，输入值后检测输入的值是否与入参一致）
+        :param driver:浏览器驱动
+        :param locate_type:定位方式类型
+        :param locator_expression:定位表达式
+        :param fill_value:填入的值
+        :param timeout:超时时间
+        :return:
+        """
+        # 元素必须先出现
+        element = self.element_appear(driver,
+                                      locate_type=locate_type,
+                                      locator_expression=locator_expression,
+                                      timeout=timeout
+                                      )
+        try:
+            # 清除元素中的原有值
+            element.clear()
+        except StaleElementReferenceException:  # 页面元素没有刷新出来，就对元素进行捕获
+            self.wait_for_ready_state_complete(driver=driver)
+            time.sleep(0.06)
+            element = self.element_appear(driver,
+                                          locate_type=locate_type,
+                                          locator_expression=locator_expression,
+                                          timeout=timeout
+                                          )
+
+            try:
+                element.clear()
+            except Exception:
+                pass
+        except Exception:
+            pass
+        if type(fill_value) is int or type(fill_value) is float:
+            fill_value = str(fill_value)
+        try:
+            if not fill_value.endswith("\n"):
+                # 不是以\n 结尾
+                element.send_keys(fill_value)
+                self.wait_for_ready_state_complete(driver=driver)
+
+            else:
+                fill_value = fill_value[:-1]
+                element.send_keys(fill_value)
+                element.send_keys(Keys.ENTER)
+                self.wait_for_ready_state_complete(driver=driver)
+        except StaleElementReferenceException as s:
+            self.wait_for_ready_state_complete(driver=driver)
+            time.sleep(0.06)
+            element = self.element_appear(driver,locate_type=locate_type,locator_expression=locator_expression)
+            element.clear()
+            if not fill_value.endswith("\n"):
+                # 不是以\n 结尾
+                element.send_keys(fill_value)
+                self.wait_for_ready_state_complete(driver=driver)
+
+            else:
+                fill_value = fill_value[:-1]
+                element.send_keys(fill_value)
+                element.send_keys(Keys.ENTER)
+                self.wait_for_ready_state_complete(driver=driver)
+        except Exception:
+            return Exception("元素填值失败")
+
+        return True
