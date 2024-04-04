@@ -1,6 +1,6 @@
 import time
 
-from selenium.common.exceptions import ElementNotVisibleException
+from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 
 
 class ObjectMap:
@@ -39,3 +39,36 @@ class ObjectMap:
                     break
             time.sleep(0.1)
         raise ElementNotVisibleException("元素定位失败，定位方式：" + locate_type + "定位表达式" + locator_expression)
+
+    def wait_for_ready_state_complete(driver, timeout=30):
+        """
+        等待页面完全加载完成
+        :param driver:
+        :param timeout:
+        :return:
+        """
+        # 开始时间
+        start_ms = time.time() * 1000.0
+        # 设置的结束时间
+        stop_ms = start_ms + (timeout * 1000.0)
+
+        for x in range(int(timeout * 10)):
+            try:
+                # 获取页面的一个 "是否准备完成" 的属性
+                ready_state = driver.execute_script("return document.readyState")
+            except WebDriverException:
+                # 如果有driver错误，执行js会失败，就直接跳过
+                time.sleep(0.03)
+                return True
+            # 如果页面元素全部加载完，返回True
+            if ready_state == "complete":
+                time.sleep(0.01)
+                return True
+            else:
+                now_ms = time.time() * 1000.0
+                # 如果超时了就break
+                if now_ms >= stop_ms:
+                    break
+                time.sleep(0.1)
+        raise Exception("打开网页时，页面元素在%s秒后仍然没有完全加载完" % timeout)
+
