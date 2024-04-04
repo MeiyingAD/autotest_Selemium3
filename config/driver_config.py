@@ -2,6 +2,7 @@ from time import sleep
 
 from selenium import webdriver
 
+from webdriver_manager.chrome import ChromeDriverManager  # 用于自动下载浏览器驱动
 from common.tools import get_project_path, sep
 
 
