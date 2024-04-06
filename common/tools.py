@@ -6,8 +6,6 @@ def get_project_path():
     获取项目目录
     :return:
     """
-
-    project_name = "pythonProject"
     file_path = os.path.dirname(__file__)
     a = file_path[:file_path.find("common")]
     return a
@@ -30,9 +28,15 @@ def sep(path, add_sep_before=False, add_sep_after=False):
     return all_path
 
 
+def get_img_path(img_name):
+    """
+    获取图片路径
+    :param img_name:
+    :return:
+    """
+    img_dir_path = get_project_path() + sep(["img", img_name])
+    return img_dir_path
+
+
 if __name__ == '__main__':
-    path = get_project_path()
-
-    all_path = sep(["config", "environment.yaml"], add_sep_before=True)
-
-    print(all_path)
+    print(get_img_path("商品图片一.jpg"))
