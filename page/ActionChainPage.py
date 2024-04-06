@@ -24,8 +24,3 @@ class ActionChainPage(ObjectMap, ActionChainsBase):
         _xpath = self.move_end()
         action_chain = self.element_get(driver=driver,locate_type=By.XPATH,locator_expression=_xpath)
         return self.ActionChains_move(driver=driver, action_chains=action_chain)
-
-    def mouse_move_to_exit_button(self,driver):
-        _xpath = self.click_exit()
-        action_chain = self.element_get(driver=driver,locate_type=By.XPATH,locator_expression=_xpath)
-        return self.ActionChains_move(driver=driver, action_chains=action_chain)
