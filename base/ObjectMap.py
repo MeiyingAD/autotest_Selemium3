@@ -343,4 +343,22 @@ class ObjectMap:
         """
         window_handles = driver.window_handles
         driver.switch_to.window(window_handles[-1])
-        
+    def switch_2_iframe(self,driver,locate_iframe_type,locate_iframe_expression):
+        """
+        进入iframe
+        :param driver:浏览器驱动
+        :param locate_iframe_type:定位iframe的方式
+        :param locate_iframe_expression:定位iframe的表达式
+        :return:
+        """
+        iframe = self.element_get(driver=driver,locate_type=locate_iframe_type,
+                                  locator_expression=locate_iframe_expression)
+        driver.switch_to.frame(iframe)
+
+    def switch_from_iframe_2_content(self,driver):
+        """
+        从iframe切回主文档
+        :param driver:
+        :return:
+        """
+        driver.switch_to.parent_frame()
