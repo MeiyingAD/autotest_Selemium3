@@ -2,6 +2,7 @@ import time
 
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException, NoSuchElementException, \
     StaleElementReferenceException
+from selenium.webdriver.common.action_chains import ActionChains
 
 from selenium.webdriver.common.keys import Keys
 
@@ -362,3 +363,23 @@ class ObjectMap:
         :return:
         """
         driver.switch_to.parent_frame()
+
+    def ActionChains_click(self, driver, action_chains):
+        """
+        单击退出
+        :param driver:
+        :param action_chains:
+        :return:
+        """
+        action = ActionChains(driver)
+        action.click(action_chains).perform()
+    def ActionChains_move(self,driver, action_chains):
+        """
+        光标移动
+        :param driver:
+        :param action_chains:
+        :return:
+        """
+        action = ActionChains(driver)
+        action.move_to_element(action_chains).perform()
+
