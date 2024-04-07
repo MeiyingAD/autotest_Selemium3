@@ -1,0 +1,8 @@
+document.evaluate('//*[@id="app"]/section/section/main/div[1]/div/div/div[1]/button', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.addEventListener('click', () => setTimeout(() => { debugger; }, 500));
+
+
+
+
+
+
+
