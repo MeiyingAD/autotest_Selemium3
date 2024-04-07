@@ -78,19 +78,20 @@ class GoodsPage(GoodsBase, ObjectMap):
         goods_status_select_xpath = self.goods_status_select(select_name)
         return self.element_click(driver=driver, locate_type=By.XPATH,
                                   locator_expression=goods_status_select_xpath)
-    def click_botton_button(self,driver, button_name):
+
+    def click_botton_button(self, driver, button_name):
         """
         点击底部按钮
         :param driver:
         :param button_name:
         :return:
         """
-        botton_xpath =self.add_goods_bottom_button(button_name)
+        botton_xpath = self.add_goods_bottom_button(button_name)
         return self.element_click(driver=driver, locate_type=By.XPATH,
                                   locator_expression=botton_xpath)
 
-    def add_new_goods(self,driver, goods_title, goods_details, goods_num,goods_img_list,
-                      goods_price,goods_status,bottom_button_name):
+    def add_new_goods(self, driver, goods_title, goods_details, goods_num, goods_img_list,
+                      goods_price, goods_status, bottom_button_name):
         """
         新增二手商品
         :param driver:
@@ -103,15 +104,15 @@ class GoodsPage(GoodsBase, ObjectMap):
         :param bottom_button_name:
         :return:
         """
-        self.inputs_goods_title(driver=driver,input_value=goods_title)
-        self.input_goods_details(driver=driver,input_value=goods_details)
-        self.seelect_goods_num(driver=driver,num=goods_num)
+        self.inputs_goods_title(driver=driver, input_value=goods_title)
+        self.input_goods_details(driver=driver, input_value=goods_details)
+        self.seelect_goods_num(driver=driver, num=goods_num)
 
         for goods_img in goods_img_list:
             self.upload_goods_img(driver=driver, img_name=goods_img)
             sleep(5)
 
-        self.input_goods_price(driver=driver,input_value=goods_price)
-        self.select_goods_status(driver=driver,select_name=goods_status)
-        self.click_botton_button(driver=driver,button_name=bottom_button_name)
+        self.input_goods_price(driver=driver, input_value=goods_price)
+        self.select_goods_status(driver=driver, select_name=goods_status)
+        self.click_botton_button(driver=driver, button_name=bottom_button_name)
         return True
