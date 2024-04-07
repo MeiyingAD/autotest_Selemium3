@@ -7,8 +7,8 @@ from time import sleep
 
 
 class TestSearchOrderBuy:
-    def test_search_order_buy(self):
-        driver = DriverConfig().driver_config()
+    def test_search_order_buy(self,driver):
+
         LoginPage().login(driver, user="william")
         LeftMenuPage().click_level_one_menu(driver=driver, menu_name="我的订单")
         sleep(1)
@@ -19,4 +19,4 @@ class TestSearchOrderBuy:
             OrderPage().click_order_tab(driver=driver, tab_name=tab)
             sleep(1)
 
-        driver.quit()
+

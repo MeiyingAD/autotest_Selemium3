@@ -8,11 +8,6 @@ from page.GoodsPage import GoodsPage
 
 
 class TestAddGoods:
-    @pytest.fixture()
-    def driver(self):
-        get_driver = DriverConfig().driver_config()
-        yield get_driver
-        get_driver.quit()
 
     def test_add_goods(self,driver):
         LoginPage().login(driver,"william")

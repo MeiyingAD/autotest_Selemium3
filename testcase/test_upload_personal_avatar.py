@@ -11,8 +11,8 @@ from config.driver_config import DriverConfig
 
 
 class TestUploadPersonalAvatar:
-    def test_upload_personal_avatar(self):
-        driver = DriverConfig().driver_config()
+    def test_upload_personal_avatar(self,driver):
+
         LoginPage().login(driver=driver,user="william")
         LeftMenuPage().click_level_one_menu(driver=driver,menu_name="账户设置")
         sleep(1)
@@ -23,4 +23,3 @@ class TestUploadPersonalAvatar:
         sleep(2)
         AccountPage().click_save(driver=driver)
 
-        driver.quit()

@@ -7,12 +7,12 @@ from time import sleep
 
 
 class TestSwitchWindowHandle:
-    def test_switch_window_handle(self):
-        driver = DriverConfig().driver_config()
+    def test_switch_window_handle(self,driver):
+
         LoginPage().login(driver=driver, user="william")
         sleep(3)
         LeftMenuPage().click_level_one_menu(driver=driver, menu_name="外链")
         sleep(1)
         title = ExternalLinkPage().goto_imooc(driver=driver)
         print(title)
-        driver.quit()
+

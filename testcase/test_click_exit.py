@@ -7,13 +7,13 @@ from config.driver_config import DriverConfig
 
 
 class TestClickExit:
-    def test_text_click_exit(self):
+    def test_text_click_exit(self,driver):
 
-        driver = DriverConfig().driver_config()
+
         LoginPage().login(driver=driver, user="william")
         sleep(2)
         ActionChainPage().mouse_move_to_list(driver=driver)
         sleep(2)
         ActionChainPage().click_exit_button(driver=driver)
         sleep(1)
-        driver.quit()
+

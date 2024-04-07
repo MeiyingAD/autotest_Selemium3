@@ -7,8 +7,8 @@ from config.driver_config import DriverConfig
 
 
 class TestIframeBaiduMap:
-    def test_IframeBaiduMap(self):
-        driver = DriverConfig().driver_config()
+    def test_IframeBaiduMap(self,driver):
+
         LoginPage().login(driver=driver, user="william")
         LeftMenuPage().click_level_one_menu(driver=driver, menu_name="iframe测试")
         sleep(1)
@@ -17,4 +17,4 @@ class TestIframeBaiduMap:
         IframeBaiduMapPage().iframe_out(driver=driver)
         LeftMenuPage().click_level_one_menu(driver, menu_name="首页")
         sleep(3)
-        driver.close()
+
