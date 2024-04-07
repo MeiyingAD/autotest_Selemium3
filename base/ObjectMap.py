@@ -1,12 +1,12 @@
 import time
-
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException, NoSuchElementException, \
     StaleElementReferenceException
 from selenium.webdriver.common.action_chains import ActionChains
-
 from selenium.webdriver.common.keys import Keys
 
 from common.yaml_config import GetConf
+from common.tools import get_project_path, sep
+from common.find_img import FindImg
 
 
 class ObjectMap:
@@ -325,7 +325,8 @@ class ObjectMap:
             print("等待元素消失或出现失败", e)
             return False
         return True
-    def upload(self,driver, locate_type, locator_expression,file_path):
+
+    def upload(self, driver, locate_type, locator_expression, file_path):
         """
         文件上传
         :param driver:
@@ -335,8 +336,9 @@ class ObjectMap:
         :return:
         """
         element = self.element_get(driver=driver, locate_type=locate_type, locator_expression=locator_expression)
-        return  element.send_keys(file_path)
-    def switch_window_2_latest_handle(self,driver):
+        return element.send_keys(file_path)
+
+    def switch_window_2_latest_handle(self, driver):
         """
         句柄切换窗口到最新的窗口
         :param driver:
@@ -344,7 +346,8 @@ class ObjectMap:
         """
         window_handles = driver.window_handles
         driver.switch_to.window(window_handles[-1])
-    def switch_2_iframe(self,driver,locate_iframe_type,locate_iframe_expression):
+
+    def switch_2_iframe(self, driver, locate_iframe_type, locate_iframe_expression):
         """
         进入iframe
         :param driver:浏览器驱动
@@ -352,11 +355,11 @@ class ObjectMap:
         :param locate_iframe_expression:定位iframe的表达式
         :return:
         """
-        iframe = self.element_get(driver=driver,locate_type=locate_iframe_type,
+        iframe = self.element_get(driver=driver, locate_type=locate_iframe_type,
                                   locator_expression=locate_iframe_expression)
         driver.switch_to.frame(iframe)
 
-    def switch_from_iframe_2_content(self,driver):
+    def switch_from_iframe_2_content(self, driver):
         """
         从iframe切回主文档
         :param driver:
@@ -373,7 +376,8 @@ class ObjectMap:
         """
         action = ActionChains(driver)
         action.click(action_chains).perform()
-    def ActionChains_move(self,driver, action_chains):
+
+    def ActionChains_move(self, driver, action_chains):
         """
         光标移动
         :param driver:
@@ -383,3 +387,20 @@ class ObjectMap:
         action = ActionChains(driver)
         action.move_to_element(action_chains).perform()
 
+    def find_img_in_source(self, driver, img_name):
+        """
+        截图并在截图中查找图片
+        :param driver:
+        :param img_name:
+        :return:
+        """
+        # 截图后图片保存的路径
+        source_img_path = get_project_path() + sep(["img", "source_img", img_name])
+        # 需要查找的图片的路径
+        search_img_path = get_project_path() + sep(["img", "assert_img", img_name])
+        # 截图并保存图片
+        driver.get_screenshot_as_file(source_img_path)
+        time.sleep(3)
+        # 在原图中查找是否有指定的图片
+        confidence = FindImg().get_confidence(source_img_path, search_img_path)
+        return confidence
