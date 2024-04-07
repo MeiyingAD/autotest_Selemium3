@@ -1,4 +1,5 @@
 from time import sleep
+import pytest
 
 from config.driver_config import DriverConfig
 from page.loginPage import LoginPage
@@ -7,8 +8,13 @@ from page.GoodsPage import GoodsPage
 
 
 class TestAddGoods:
-    def test_add_goods(self):
-        driver = DriverConfig().driver_config()
+    @pytest.fixture()
+    def driver(self):
+        get_driver = DriverConfig().driver_config()
+        yield get_driver
+        get_driver.quit()
+
+    def test_add_goods(self,driver):
         LoginPage().login(driver,"william")
         LeftMenuPage().click_level_one_menu(driver,"产品")
         sleep(1)
@@ -25,4 +31,3 @@ class TestAddGoods:
                                   bottom_button_name="提交"
                                   )
         sleep(3)
-        driver.quit()
