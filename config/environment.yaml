@@ -5,6 +5,9 @@ users:
   william:
     username: william
     password: 1234abcd!
+  failure:
+    username: failure
+    password: failure
 
 
 url: http://192.168.31.156
