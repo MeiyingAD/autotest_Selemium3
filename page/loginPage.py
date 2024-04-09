@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from base.login_base import LoginBase
 from base.ObjectMap import ObjectMap
 from common.yaml_config import GetConf
-
+from logs.log import log
 
 class LoginPage(LoginBase, ObjectMap):
     def login_input_value(self, driver, input_placeholder, input_value):
@@ -14,6 +14,7 @@ class LoginPage(LoginBase, ObjectMap):
         :param input_value:
         :return:
         """
+        log.info("输入"+input_placeholder+"为："+str(input_value))
         input_xpath = self.login_input(input_placeholder)
         return self.element_fill_value(driver=driver, locate_type=By.XPATH, locator_expression=input_xpath,
                                        fill_value=input_value)
@@ -25,6 +26,7 @@ class LoginPage(LoginBase, ObjectMap):
         :param button_name:
         :return:
         """
+        log.info("点击登录")
         button_xpath = self.login_button(button_name)
         return self.element_click(driver=driver, locate_type=By.XPATH, locator_expression=button_xpath)
 
